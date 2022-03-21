@@ -152,11 +152,15 @@ var answersArr =Object.values(Answers);
 // Timer
 function  timer(){
     setInterval(function(){
-    if (count >0) {
+    if (count >0 && a <5) {
     count --;
     displayTime.textContent = count;
-    } else {
+    } 
+    if (count == 0){
         formEl.textContent = "Times Up!";
+    }
+    if (count > 10000) {
+        clearInterval(this);
     }
     console.log( count);
 },1000);
