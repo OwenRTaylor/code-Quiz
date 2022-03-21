@@ -1,3 +1,9 @@
 #hov:hover {
     background-color: #00000036;
 }
+@media screen and (max-width: 980px) {
+    form {
+        margin: 0;
+    }
+    
+}

@@ -1,3 +1,4 @@
+
 var body = document.body;
 var formEl = document.createElement("form");
 var questionEl = document.createElement("h2");
@@ -9,17 +10,26 @@ var li4 = document.createElement("li");
 var count = 90;
 var i = 0;
 var a = 0;
-var highScore = 0;
 var score = 0;
+var initials;
 var displayTime = document.createElement("p");
 var answerEl = document.createElement("h2");
+var initials = document.createElement("input");
+var initialsButton = document.createElement("button");
 formEl.append(displayTime);
 body.appendChild(formEl);
 formEl.appendChild(questionEl);
 formEl.appendChild(listEl);
 questionEl.setAttribute("style", "color: white;font-size: 70px; background-color: aqua; border-radius: 30px;");
-
+initials.textContent = "23";
+initials.setAttribute("type","text")
+initials.setAttribute("id","input")
+initials.setAttribute("style", "color:black;background-color: white; font-size: xx-large;");
+initials.placeholder = "Your initials..."
 displayTime.setAttribute("style","color:white;font-size:30px; float:right; margin-bottom: 30px;");
+initialsButton.setAttribute("style","background-color:green;font-size:30px; float:right; margin-bottom: 30px; padding:25px;");
+initialsButton.textContent = "Submit";
+
 formEl.setAttribute("style", "margin: 200px 300px; padding:100px; background-color:blue;color:white;font-size:100px; text-align:center");
 questionEl.textContent = "Start Quiz?"
 questionEl.setAttribute("id","hov2");
@@ -33,206 +43,105 @@ li3.setAttribute("style", "color: white; font-size: 30px; margin-top: 10px;");
 li3.setAttribute("id","hov");
 li4.setAttribute("style", "color: white; font-size: 30px; margin-top: 10px;");
 li4.setAttribute("id","hov");
+localStorage.setItem("a", 0)
+var input;
+function loadScores(initials) {
+    savedScore = JSON.parse(localStorage.getItem("scoreKeeper"));
+    nameArr = JSON.parse(localStorage.getItem("initialsKeeper"))
+    if (!savedScore) {
+        savedScore = [];
+        nameArr = [];
+    }; 
 
+    savedScore.push(score);
+    nameArr.push(initials);
+    console.log(savedScore)
+    localStorage.setItem("scoreKeeper", JSON.stringify( savedScore));
+    localStorage.setItem("initialsKeeper", JSON.stringify( nameArr));
+    formEl.setAttribute("style", "margin: 200px 300px; padding:40px; background-color:blue;color:white;font-size:100px; text-align:center");
+    formEl.textContent = initials + " highscore: " + Math.max.apply(null, savedScore);;
+}
+function load() {
+        input = document.querySelector("#input").value;
+        console.log(input);
+        event.preventDefault();
+        loadScores(input);
+}
 function endQuiz() {
     formEl.textContent = "You finished!"
-    questionEl.textContent = "Highscores:"
-    localStorage.setItem("score",score)
+    questionEl.textContent = "your score:" + score;
+    formEl.appendChild(questionEl);
+    //localStorage.setItem("score",score)
+    formEl.appendChild(initials);
+    formEl.appendChild(initialsButton);
+    initialsButton.addEventListener("click",load)
+
 };
 var answer2;
 
 var Answers = {
-    A1: 4,
-    A2: 2,
-    A3: 3,
-    A4: 4,
+    A1: 3,
+    A2: 1,
+    A3: 4,
+    A4: 1,
     A5: 1,
 };
 var answersArr =Object.values(Answers);
-console.log(answersArr[1]);
 function tracker(){
     
     if (i == 0) {
-    li1.textContent = "Hello1";
-    li2.textContent = "Hello2";
-    li3.textContent = "Hello3";
-    li4.textContent = "Hello4";
-    questionEl.textContent = "lorem ipsum1";
+    li1.textContent = "strings";
+    li2.textContent = "booleans";
+    li3.textContent = "alerts";
+    li4.textContent = "numbers";
+    questionEl.textContent = "Commonly used data types DO NOT include:";
     } 
     
     if (i ==1) {
-        li1.textContent = "Hello5";
-        li2.textContent = "Hwllo6";
-        li3.textContent = "Hello7";
-        li4.textContent = "Hello8";
-        questionEl.textContent = "lorem ipsum2";
+        li1.textContent = "()";
+        li2.textContent = "{}";
+        li3.textContent = "[]";
+        li4.textContent = "<>";
+        questionEl.textContent = "The condion of an if/else statment is enclosed in:";
     }
      if (i ==2) {
-        li1.textContent = "Hello9";
-        li2.textContent = "Hello10";
-        li3.textContent = "Hello11";
-        li4.textContent = "Hello12";
-        questionEl.textContent = "lorem ipsum3";
+        li1.textContent = "arrays";
+        li2.textContent = "numbers";
+        li3.textContent = "strings";
+        li4.textContent = "all of the above";
+        questionEl.textContent = "arrays in javascript can be used to store:";
     }
      if (i ==3) {
-        li1.textContent = "Hello13";
-        li2.textContent = "Hello14";
-        li3.textContent = "Hello15";
-        li4.textContent = "Hello16";
-         questionEl.textContent = "lorem ipsum4";
+        li1.textContent = "quotes";
+        li2.textContent = "commas";
+        li3.textContent = "parantheses";
+        li4.textContent = "curly brackets";
+         questionEl.textContent = "String values being assigned to variables must be enclosed in:";
     }
      if (i ==4) {
-        li1.textContent = "Hello123";
-        li2.textContent = "Hello143";
-        li3.textContent = "Hello145";
-        li4.textContent = "Hello165";
-         questionEl.textContent = "lorem ipsum34";
+        li1.textContent = "console.log";
+        li2.textContent = "terminal/bash";
+        li3.textContent = "for loops";
+        li4.textContent = "JavaScript";
+         questionEl.textContent = "a very useful tool in the process of debugging to print out content in the debugger is:";
     } 
     if(i==5){
         endQuiz();
     };
     i++;
 }
-function Quiz1() {
-    timer();
-    li1.addEventListener("click", function(){
-
-        if (answer2 === 1){
-            answerEl.setAttribute("style","color:white; background-color:green;");
-            answerEl.textContent = "CORRECT!";
-            console.log(answer2, " : " +1);
-
-            tracker();            } else {
-            console.log(answer2, " : " +1);
-            answerEl.setAttribute("style","color:white; background-color:red;");
-            answerEl.textContent = "WRONG!";
-            count-=10;
-            tracker();       };
-    });
-    
-    li2.addEventListener("click", function(){
-
-        if (answer2 === 2){
-            answerEl.setAttribute("style","color:white; background-color:green;");
-            answerEl.textContent = "CORRECT!";
-            console.log(answer2, " : " +2);
-
-            tracker();            } else {
-            console.log(answer2, " : " +2);
-            answerEl.setAttribute("style","color:white; background-color:red;");
-            answerEl.textContent = "WRONG!";
-            count-=10;
-            tracker();};
-    });
-    
-    li3.addEventListener("click", function(){
-
-        if (answer2 === 3){
-            answerEl.setAttribute("style","color:white; background-color:green;");
-            answerEl.textContent = "CORRECT!";
-            console.log(answer2, " : " +3);
-
-            tracker();
-            } else {
-            console.log(answer2, " : " +3);
-            answerEl.setAttribute("style","color:white; background-color:red;");
-            answerEl.textContent = "WRONG!";
-            count-=10;
-            tracker();        };
-    });
-    
-    li4.addEventListener("click", check(4));
-};  
 function check(guess){
 if (answersArr[a] === guess){
     answerEl.setAttribute("style","color:white; background-color:green;");
     answerEl.textContent = "CORRECT!";
-    console.log(answer2, " : " +guess);
     score++;
     } else {
-    console.log(answer2, " : " +guess);
     answerEl.setAttribute("style","color:white; background-color:red;");
     answerEl.textContent = "WRONG!";
     count-=10; };
 
     a++
 };
-    // li2.addEventListener("click", quiz3(2,2));    
-    // li3.addEventListener("click", quiz3(3,3));
-    // li4.addEventListener("click", quiz3(1,4));
-    
-
-    // li4.addEventListener("dblclick", function (){
-    //     if (answer1 ==4){
-    //     answer = 0;
-    //     count-=9;
-    //     answerEl.setAttribute("style","color:white; background-color:green;");
-    //     answerEl.textContent = "CORRECT!";
-    //     startQuiz();
-
-    //     } else {
-    //     answer = 0;
-    //     answerEl.setAttribute("style","color:white; background-color:red;");
-    //     answerEl.textContent = "WRONG!";
-    //     startQuiz();
-    //     }
-    // });
-    
-    
-
-// function Quiz2(answer) {
-//     li2.textContent = "Hello2";
-//     li3.textContent = "Hello1";
-//     li4.textContent = "Hello3";
-//     li1.textContent = "Hello4";
-//     questionEl.setAttribute("style", "font-size:40px;");
-//     questionEl.textContent = "lorem ipsum";
-
-//     li1.addEventListener("click", function (){
-//         if (answer !=1){
-//         count-=9;
-//         answerEl.setAttribute("style","color:white; background-color:red;");
-//         answerEl.textContent = "WRONG!";
-        
-//         } else {
-//         answerEl.setAttribute("style","color:white; background-color:green;");
-//         answerEl.textContent = "CORRECT!";
-//         }
-        
-//     });
-//     li2.addEventListener("click", function (){
-//         if (answer !=2){
-//         count-=9;
-//         answerEl.setAttribute("style","color:white; background-color:red;");
-//         answerEl.textContent = "WRONG!";
-        
-//         } else {
-//         answerEl.setAttribute("style","color:white; background-color:green;");
-//         answerEl.textContent = "CORRECT!";
-//         }
-//     });
-//     li3.addEventListener("click", function (){
-        
-//         if (answer !=3){
-//             count-=9;
-//             answerEl.setAttribute("style","color:white; background-color:red;");
-//             answerEl.textContent = "WRONG!";
-//             } else {
-//             answerEl.setAttribute("style","color:white; background-color:green;");
-//             answerEl.textContent = "CORRECT!";
-//             }
-//     });
-//     li4.addEventListener("click", function (){
-//         if (answer !=4){
-//         count-=9;
-//         answerEl.setAttribute("style","color:white; background-color:red;");
-//         answerEl.textContent = "WRONG!";
-//         } else {
-//         answerEl.setAttribute("style","color:white; background-color:green;");
-//         answerEl.textContent = "CORRECT!";
-//         }
-//     });
-// }
 function  timer(){
     setInterval(function(){
     if (count >0) {
@@ -246,8 +155,8 @@ function  timer(){
 }
 // 
 function startQuiz() {
-
-    
+    timer();
+    element = event.target 
     
     listEl.appendChild(li1);
     listEl.appendChild(li2);
@@ -255,12 +164,13 @@ function startQuiz() {
     listEl.appendChild(li4);
     listEl.appendChild(answerEl);
     questionEl.setAttribute("style", "font-size:40px;");
+    questionEl.setAttribute("id", "none")
+    // element.removeEventListener("click", questionEl);
     tracker();
     
     li1.addEventListener("click", function(){
         check(1)
         tracker()
-        console.log(answersArr)
     });
     li2.addEventListener("click", function(){
         check(2)
@@ -278,4 +188,3 @@ function startQuiz() {
 };
 
 questionEl.addEventListener("click", startQuiz);
-
