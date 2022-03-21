@@ -80,7 +80,7 @@ function endQuiz() {
     formEl.appendChild(initials);
     formEl.appendChild(initialsButton);
     initialsButton.addEventListener("click",load);
-    setTimeout(timer);
+    count = 100000000000;
 };
 // Object to change answers easier
 var Answers = {
