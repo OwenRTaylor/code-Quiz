@@ -1,4 +1,4 @@
-
+// Generating HTML elements
 var body = document.body;
 var formEl = document.createElement("form");
 var questionEl = document.createElement("h2");
@@ -7,21 +7,25 @@ var li1 = document.createElement("li");
 var li2 = document.createElement("li");
 var li3 = document.createElement("li");
 var li4 = document.createElement("li");
+var displayTime = document.createElement("p");
+var answerEl = document.createElement("h2");
+var initials = document.createElement("input");
+var initialsButton = document.createElement("button");
+// Global variables
 var count = 90;
 var i = 0;
 var a = 0;
 var score = 0;
 var initials;
-var displayTime = document.createElement("p");
-var answerEl = document.createElement("h2");
-var initials = document.createElement("input");
-var initialsButton = document.createElement("button");
+var input;
+var answer2;
+// Appending for the starting page
 formEl.append(displayTime);
 body.appendChild(formEl);
 formEl.appendChild(questionEl);
 formEl.appendChild(listEl);
+// Setting attributes
 questionEl.setAttribute("style", "color: white;font-size: 70px; background-color: aqua; border-radius: 30px;");
-initials.textContent = "23";
 initials.setAttribute("type","text")
 initials.setAttribute("id","input")
 initials.setAttribute("style", "color:black;background-color: white; font-size: xx-large;");
@@ -29,7 +33,6 @@ initials.placeholder = "Your initials..."
 displayTime.setAttribute("style","color:white;font-size:30px; float:right; margin-bottom: 30px;");
 initialsButton.setAttribute("style","background-color:green;font-size:30px; float:right; margin-bottom: 30px; padding:25px;");
 initialsButton.textContent = "Submit";
-
 formEl.setAttribute("style", "margin: 200px 300px; padding:100px; background-color:blue;color:white;font-size:100px; text-align:center");
 questionEl.textContent = "Start Quiz?"
 questionEl.setAttribute("id","hov2");
@@ -43,8 +46,8 @@ li3.setAttribute("style", "color: white; font-size: 30px; margin-top: 10px;");
 li3.setAttribute("id","hov");
 li4.setAttribute("style", "color: white; font-size: 30px; margin-top: 10px;");
 li4.setAttribute("id","hov");
-localStorage.setItem("a", 0)
-var input;
+
+// Pushing new scores and names
 function loadScores(initials) {
     savedScore = JSON.parse(localStorage.getItem("scoreKeeper"));
     nameArr = JSON.parse(localStorage.getItem("initialsKeeper"))
@@ -61,12 +64,14 @@ function loadScores(initials) {
     formEl.setAttribute("style", "margin: 200px 300px; padding:40px; background-color:blue;color:white;font-size:100px; text-align:center");
     formEl.textContent = initials + " highscore: " + Math.max.apply(null, savedScore);;
 }
+// getting initals from user
 function load() {
         input = document.querySelector("#input").value;
         console.log(input);
         event.preventDefault();
         loadScores(input);
 }
+// for After the Quiz ends
 function endQuiz() {
     formEl.textContent = "You finished!"
     questionEl.textContent = "your score:" + score;
@@ -74,11 +79,10 @@ function endQuiz() {
     //localStorage.setItem("score",score)
     formEl.appendChild(initials);
     formEl.appendChild(initialsButton);
-    initialsButton.addEventListener("click",load)
-
+    initialsButton.addEventListener("click",load);
+    setTimeout(timer);
 };
-var answer2;
-
+// Object to change answers easier
 var Answers = {
     A1: 3,
     A2: 1,
@@ -86,7 +90,7 @@ var Answers = {
     A4: 1,
     A5: 1,
 };
-var answersArr =Object.values(Answers);
+// Tracking questions
 function tracker(){
     
     if (i == 0) {
@@ -130,6 +134,7 @@ function tracker(){
     };
     i++;
 }
+// Quiz logic
 function check(guess){
 if (answersArr[a] === guess){
     answerEl.setAttribute("style","color:white; background-color:green;");
@@ -142,6 +147,9 @@ if (answersArr[a] === guess){
 
     a++
 };
+var answersArr =Object.values(Answers);
+
+// Timer
 function  timer(){
     setInterval(function(){
     if (count >0) {
@@ -153,7 +161,7 @@ function  timer(){
     console.log( count);
 },1000);
 }
-// 
+// Start of the quiz
 function startQuiz() {
     timer();
     element = event.target 
@@ -186,5 +194,5 @@ function startQuiz() {
     });
 
 };
-
+// The start
 questionEl.addEventListener("click", startQuiz);
