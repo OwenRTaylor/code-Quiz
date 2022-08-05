@@ -58,7 +58,6 @@ function loadScores(initials) {
 
     savedScore.push(score);
     nameArr.push(initials);
-    console.log(savedScore)
     localStorage.setItem("scoreKeeper", JSON.stringify( savedScore));
     localStorage.setItem("initialsKeeper", JSON.stringify( nameArr));
     formEl.setAttribute("style", "margin: 200px 300px; padding:40px; background-color:blue;color:white;font-size:100px; text-align:center");
@@ -67,7 +66,6 @@ function loadScores(initials) {
 // getting initals from user
 function load() {
         input = document.querySelector("#input").value;
-        console.log(input);
         event.preventDefault();
         loadScores(input);
 }
@@ -80,7 +78,7 @@ function endQuiz() {
     formEl.appendChild(initials);
     formEl.appendChild(initialsButton);
     initialsButton.addEventListener("click",load);
-    count = 100000000000;
+    clearInterval(timer)
 };
 // Object to change answers easier
 var Answers = {
@@ -150,8 +148,7 @@ if (answersArr[a] === guess){
 var answersArr =Object.values(Answers);
 
 // Timer
-function  timer(){
-    setInterval(function(){
+var timer = setInterval(function(){
     if (count >0 && a <5) {
     count --;
     displayTime.textContent = count;
@@ -159,15 +156,12 @@ function  timer(){
     if (count == 0){
         formEl.textContent = "Times Up!";
     }
-    if (count > 10000) {
-        clearInterval(this);
-    }
-    console.log( count);
+    
 },1000);
-}
+
 // Start of the quiz
 function startQuiz() {
-    timer();
+    timer;
     element = event.target 
     
     listEl.appendChild(li1);
